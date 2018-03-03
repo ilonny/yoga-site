@@ -3,12 +3,8 @@
 namespace app\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\Categories;
 
 class CategoriesController extends Controller
 {
@@ -19,6 +15,26 @@ class CategoriesController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $parent_categories = Categories::find()->where(['category_parent_id' => null])->all();
+        return $this->render('index', [
+            'parent_categories' => $parent_categories,
+        ]);
+    }
+
+    /**
+     * Displays Items by category.
+     *
+     * @return string
+     */
+    public function actionView($category = null)
+    {
+        if ($category){
+            $category = Categories::findOne($category);
+        } else{
+            $category = "Все товары";            
+        }
+        return $this->render('view', [
+            'category' => $category,
+        ]);
     }
 }
