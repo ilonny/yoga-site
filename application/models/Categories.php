@@ -12,6 +12,8 @@ use Yii;
  * @property string $description
  * @property int $category_parent_id
  *
+ * @property Categories $categoryParent
+ * @property Categories[] $categories
  * @property Items[] $items
  */
 class Categories extends \yii\db\ActiveRecord
@@ -34,6 +36,7 @@ class Categories extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['category_parent_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
+            [['category_parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['category_parent_id' => 'id']],
         ];
     }
 
@@ -48,6 +51,22 @@ class Categories extends \yii\db\ActiveRecord
             'description' => 'Description',
             'category_parent_id' => 'Category Parent ID',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategoryParent()
+    {
+        return $this->hasOne(Categories::className(), ['id' => 'category_parent_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategories()
+    {
+        return $this->hasMany(Categories::className(), ['category_parent_id' => 'id']);
     }
 
     /**
