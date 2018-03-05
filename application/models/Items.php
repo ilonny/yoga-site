@@ -15,6 +15,7 @@ use Yii;
  * @property int $category_id
  *
  * @property Categories $category
+ * @property Reviews[] $reviews
  */
 class Items extends \yii\db\ActiveRecord
 {
@@ -61,5 +62,13 @@ class Items extends \yii\db\ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(Categories::className(), ['id' => 'category_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReviews()
+    {
+        return $this->hasMany(Reviews::className(), ['item_id' => 'id']);
     }
 }

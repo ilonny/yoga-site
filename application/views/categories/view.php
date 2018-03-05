@@ -4,6 +4,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\helpers\FileHelper;
 $cat_name = ($category->name) ? $category->name : $category;
 $this->title = 'Отзывы о товарах - ' . $cat_name ;
 $this->params['breadcrumbs'][] = $this->title;
@@ -48,8 +49,18 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endfor; ?>
         </ul>
     </div>
-    <div class="col-xs-12 col-md-9">
+    <div class="col-xs-12 col-md-9 items">
         <?php foreach ($items as $key => $item): ?>
+            <div class="col-xs-12 col-md-4 item-block">
+                <div class="img-wrap">
+                    <!-- <img src="<?= $item->img_src; ?>"> -->
+                    <img src="<?= FileHelper::getImageThumb($item->img_src, 300, 200); ?>">
+                </div>
+                <div class="item-block__title"><?= $item->name; ?></div>
+                <div class="items-block__description"><?= $item->description; ?></div>
+                <div class="items-block__rating">Рейтинг: <?= $item->rating; ?> из 5</div>
+                <a href="<?= Url::to(['categories/item', 'id' => $item->id]); ?>" class="btn-default btn">Смотреть отзывы</a>          
+            </div>
         <?php endforeach; ?>
     </div>
 </div>

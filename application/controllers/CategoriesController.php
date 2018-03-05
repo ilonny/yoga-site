@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\Categories;
 use app\models\Items;
+use app\models\Reviews;
 
 class CategoriesController extends Controller
 {
@@ -39,6 +40,23 @@ class CategoriesController extends Controller
         return $this->render('view', [
             'category' => $category,
             'items' => $items,
+        ]);
+    }
+
+    /**
+     * Displays Items by category.
+     *
+     * @return string
+     */
+    public function actionItem($id = null){
+        if (!$id){
+            throw new \yii\web\NotFoundHttpException();
+        }
+        $item = Items::findOne($id);
+        $reviews = Reviews::find()->where(['item_id' => $id, 'showing' => 1])->all();
+        return $this->render('item', [
+            'reviews' => $reviews,
+            'item' => $item,
         ]);
     }
 }
