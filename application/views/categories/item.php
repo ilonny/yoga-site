@@ -53,4 +53,30 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endforeach; ?>
         </div>
     </div>
+    <hr>
+    <?php if (Yii::$app->user->isGuest): ?>
+        <h5>Войдите, чтобы оставить отзыв</h5>
+    <?php else: ?>
+        <form class="reviews-form">
+            <h5>Оставить отзыв о товаре - <?= $item->name; ?></h5>
+            <div class="form-group">
+                <label>Заголовок</label>
+                <input type="text" class="form-control" name="title">
+            </div>
+            <div class="form-group">
+                <label>Текст отзыва</label>
+                <textarea type="text" class="form-control" name="text"> </textarea>
+            </div>
+            <div class="form-group">
+                <label>Оценка</label>
+                <select name="rating" class="form-control">
+                    <?php for ($i=5; $i>=1; $i--): ?>
+                        <option value="<?=$i;?>"><?=$i;?></option>
+                    <?php endfor;?>
+                </select>
+            </div>
+            <button class="btn btn-default">Отправить</button>
+        </form>
+    <?php endif; ?>
+    <hr>
 </div>
