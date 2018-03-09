@@ -59,6 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php else: ?>
         <form class="reviews-form">
             <h5>Оставить отзыв о товаре - <?= $item->name; ?></h5>
+            <input type="hidden" name="item_id" value="<?= $item->id; ?>">
             <div class="form-group">
                 <label>Заголовок</label>
                 <input type="text" class="form-control" name="title">
@@ -76,6 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </select>
             </div>
             <button class="btn btn-default">Отправить</button>
+            <div class="help-block"></div>
         </form>
     <?php endif; ?>
     <hr>

@@ -39,7 +39,6 @@ class Reviews extends \yii\db\ActiveRecord
             [['rating'], 'number'],
             [['user_id', 'item_id', 'showing'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['item_id'], 'exist', 'skipOnError' => true, 'targetClass' => Items::className(), 'targetAttribute' => ['item_id' => 'id']],
         ];
     }

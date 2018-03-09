@@ -4,12 +4,16 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\rest\Serializer;
 use app\models\Categories;
 use app\models\Items;
 use app\models\Reviews;
 
 class CategoriesController extends Controller
 {
+
+    public $enableCsrfValidation = false;
+
     /**
      * Displays categories.
      *
@@ -35,7 +39,7 @@ class CategoriesController extends Controller
             $items = Items::find()->where(['category_id' => $category->id])->all();
         } else{
             $category = "Все товары";
-            $items = Items::find()->all();            
+            $items = Items::find()->all();
         }
         return $this->render('view', [
             'category' => $category,
@@ -58,5 +62,23 @@ class CategoriesController extends Controller
             'reviews' => $reviews,
             'item' => $item,
         ]);
+    }
+
+
+    public function actionSaveReview(){
+        $data = Yii::$app->request->get();
+        $review = new Reviews;
+        $review->title = $data['title'];
+        $review->rating = $data['rating'];
+        $review->item_id = $data['item_id'];
+        $review->user_id = '1';
+        $review->showing = 0;
+        $review->text = $data['text'];
+        if ($review->save()){
+            return 'Спасибо, ваш отзыв появится после проверки модераторами';
+        } else {
+            var_dump($review->getErrors());
+            return 'Возникла ошибка. попробуйте позже';
+        }
     }
 }
